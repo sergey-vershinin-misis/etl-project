@@ -34,6 +34,9 @@ class MakePostRequest(MakeRequestAbstract):
 
 
 class RequestFactory:
+
+    endpoints = {}
+
     """Класс-фабрика запросов к API-сайта"""
     def __init__(self, path_decorator: Callable, request_handler: Callable):
         """
@@ -46,11 +49,19 @@ class RequestFactory:
 
     def make_request(self,
                      endpoint: str,
-                     header: Dict,
+                     headers: Dict,
                      endpoint_params: str = "",
-                     params: str= ""
+                     params: str = ""
                      ):
-        pass
+        endpoint: str = self.endpoints.get(endpoint)
+
+        if not endpoint:
+            return HTTPStatus.BAD_REQUEST, ""
+
+        if endpoint_params:
+            endpoint = endpoint.format(endpoint_params)
+
+        return self.path_decorator(endpoint, params, headers).__call__(self.request_handler)
 
 
-                     ):
+
