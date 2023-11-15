@@ -21,7 +21,7 @@ class MakeGetRequest(MakeRequestAbstract):
         with requests.Session() as session:
             response = session.get(url=url, params=params, headers=headers)
 
-        return response.status_code, response.text
+        return response.status_code, response.json()
 
 
 class MakePostRequest(MakeRequestAbstract):
@@ -50,8 +50,8 @@ class RequestFactory:
     def make_request(self,
                      endpoint: str,
                      headers: Dict,
-                     endpoint_params: str = "",
-                     params: str = ""
+                     endpoint_params: Tuple = (),
+                     params: Tuple = ()
                      ):
         endpoint: str = self.endpoints.get(endpoint)
 
@@ -59,7 +59,7 @@ class RequestFactory:
             return HTTPStatus.BAD_REQUEST, ""
 
         if endpoint_params:
-            endpoint = endpoint.format(endpoint_params)
+            endpoint = endpoint.format(*endpoint_params)
 
         return self.path_decorator(endpoint, params, headers).__call__(self.request_handler)
 
