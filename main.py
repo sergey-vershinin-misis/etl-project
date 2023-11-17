@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from db.common.models import db, AdvWorksSales, AdvWorksProducts
 from typing import List
 
-from api.decorator import URLDecorator
-from api.utils import MakeGetRequest, RequestFactory
-from api.settings import ENDPOINTS, COMMANDS, ADDITIONAL_PARAMS
+from api.utils.decorator import URLDecorator
+from api.utils.utils import MakeGetRequest, RequestFactory
+from api.common.settings import ENDPOINTS, COMMANDS, ADDITIONAL_PARAMS
 
 
 class UserFactory(RequestFactory):
