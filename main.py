@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from db.common.models import db, AdvWorksSales, AdvWorksProducts
 from typing import List
 
-from api.utils.decorator import URLDecorator
-from api.utils.utils import MakeGetRequest, RequestFactory
+from api.common.utils.decorator import URLDecorator
+from api.common.utils.utils import MakeGetRequest, RequestFactory
 from api.common.settings import ENDPOINTS, COMMANDS, ADDITIONAL_PARAMS
 
 
