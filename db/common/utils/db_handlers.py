@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from datetime import datetime
 from typing import Generator
 
 from db.queries.queries import *
@@ -22,11 +24,20 @@ class _AnyDBHandler(_DBHandlerAbstract):
 
 class SQLiteRead:
     """SQL Lite read data query"""
+
     def _execute_sql(self, db_path: str, query: str) -> Generator:
         with self.connector(db_path) as connection:
             cursor = connection.cursor()
             query_result = cursor.execute(query)
         yield from query_result
+
+
+@dataclass
+class SalesAggrDataRow:
+    order_date: datetime
+    country: str
+    region: str
+    days_receipt: float
 
 
 class SQLiteHandler(_AnyDBHandler, SQLiteRead):
@@ -36,14 +47,15 @@ class SQLiteHandler(_AnyDBHandler, SQLiteRead):
         query_result = self._execute_sql(db_name, query)
 
         for result in query_result:
-            print(*result)
+            c = SalesAggrDataRow(*result)
+            print(c)
+            # print(*result)
 
 
 connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
 sql = SQLiteHandler(connector)
 # query = select_all('advworksproducts')
 # query = select_aggr_sales_data_for_period(select_aggr_sales_data(), '1/1/2017', '1/3/2017')
-query = select_count_for(select_aggr_sales_data())
-
+query = select_aggr_sales_data()
 
 sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', query)
