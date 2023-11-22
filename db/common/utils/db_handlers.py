@@ -52,6 +52,7 @@ class SQLiteHandler(_AnyDBHandler, SQLiteRead):
             # print(*result)
 
 
+
 connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
 sql = SQLiteHandler(connector)
 # query = select_all('advworksproducts')
