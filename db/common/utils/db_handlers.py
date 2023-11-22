@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Generator
+
+from db.queries.queries import select_all
 from db_connectors import ConnectionFactory, ConnectorType
 
 
@@ -23,10 +25,7 @@ class SQLiteRead:
     def _execute_sql(self, db_path: str, query: str) -> Generator:
         with self.connector(db_path) as connection:
             cursor = connection.cursor()
-            query_result = cursor.execeute(query)
-            # query_result = cursor.execute(
-            #     'select * from advworksproducts;'
-            # )
+            query_result = cursor.execute(query)
         yield from query_result
 
 
@@ -41,10 +40,5 @@ class SQLiteHandler(_AnyDBHandler, SQLiteRead):
 
 
 connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
-# connector('c:\\src\\local-py\\misis\\etl\\db\\aworks_db')
 sql = SQLiteHandler(connector)
-sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', select_all)
-# sql.db_handle('../db/aworks_db')
-
-# , 'c:\\src\\local-py\\misis\\etl\\db\\aworks_db')
-# sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db')
+sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', select_all('advworksproducts'))
