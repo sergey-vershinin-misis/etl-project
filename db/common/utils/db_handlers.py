@@ -58,4 +58,4 @@ sql = SQLiteHandler(connector)
 # query = select_aggr_sales_data_for_period(select_aggr_sales_data(), '1/1/2017', '1/3/2017')
 query = select_aggr_sales_data()
 
-sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', query)
+sql.db_handle('c:\\src\\local-py\\misis\\etl-project\\db\\aworks_db', query)
