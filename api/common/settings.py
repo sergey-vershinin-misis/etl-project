@@ -14,6 +14,8 @@ class APISettings(BaseSettings):
     headers: StrictStr = Field("api_headers", alias="API_HEADERS")
 
 
+TIME_ZONE = 'GMT'
+
 api = APISettings()
 headers = ast.literal_eval(api.headers)
 
@@ -22,7 +24,7 @@ headers = ast.literal_eval(api.headers)
 # API_VER = 'v1'
 # HEADERS = {'accept': 'application/json'}
 ADDITIONAL_PARAMS = {
-    "1": ("52.52", "13.41", "2023-10-30", "2023-11-13", "temperature_2m_mean,precipitation_hours", "GMT")
+    "1": ["52.52", "13.41", "2023-10-30", "2023-11-13", "temperature_2m_mean,precipitation_hours", TIME_ZONE]
 }
 
 ENDPOINTS = {

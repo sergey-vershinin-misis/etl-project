@@ -44,6 +44,8 @@ class AdvWorksTerritories(pw.Model):
     region = pw.TextField()
     country = pw.TextField()
     continent = pw.TextField()
+    latitude = pw.FloatField()
+    longitude = pw.FloatField()
 
     class Meta:
         database = db

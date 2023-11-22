@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Generator
 
 from db.queries.queries import *
-from db_connectors import ConnectionFactory, ConnectorType
+# from db_connectors import ConnectionFactory  ????????????
 
 
 class _DBHandlerAbstract(ABC):
@@ -14,7 +14,7 @@ class _DBHandlerAbstract(ABC):
 class _AnyDBHandler(_DBHandlerAbstract):
     """Инициализирующий класс для любого БД-хэндлера"""
 
-    def __init__(self, connector: ConnectionFactory, *args, **kwargs):
+    def __init__(self, connector): #: ConnectionFactory, *args, **kwargs):
         self.connector = connector
 
     @abstractmethod
@@ -32,12 +32,7 @@ class SQLiteRead:
         yield from query_result
 
 
-@dataclass
-class SalesAggrDataRow:
-    order_date: datetime
-    country: str
-    region: str
-    days_receipt: float
+
 
 
 class SQLiteHandler(_AnyDBHandler, SQLiteRead):
@@ -47,16 +42,16 @@ class SQLiteHandler(_AnyDBHandler, SQLiteRead):
         query_result = self._execute_sql(db_name, query)
 
         for result in query_result:
-            c = SalesAggrDataRow(*result)
-            print(c)
+            yield result
+            # c = SalesAggrDataRow(*result)
+            # print(c)
             # print(*result)
 
 
-
-connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
-sql = SQLiteHandler(connector)
-# query = select_all('advworksproducts')
-# query = select_aggr_sales_data_for_period(select_aggr_sales_data(), '1/1/2017', '1/3/2017')
-query = select_aggr_sales_data()
-
-sql.db_handle('c:\\src\\local-py\\misis\\etl-project\\db\\aworks_db', query)
+# connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
+# sql = SQLiteHandler(connector)
+# # query = select_all('advworksproducts')
+# # query = select_aggr_sales_data_for_period(select_aggr_sales_data(), '1/1/2017', '1/3/2017')
+# query = select_aggr_sales_data()
+#
+# sql.db_handle('c:\\src\\local-py\\misis\\etl-project\\db\\aworks_db', query)

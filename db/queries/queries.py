@@ -22,14 +22,25 @@ def select_aggr_sales_data():
 select s.order_date,
        t.country,
        t.region,
-       sum(p.product_price * s.order_quantity) as days_receipts
+       sum(p.product_price * s.order_quantity) as days_receipts,
+       t.latitude,
+       t.longitude
 from advworksterritories t
 left join advworkssales s on t.territory_key = s.territory_key
 join advworksproducts p on p.product_key = s.product_key
-group by t.region, t.country, s.order_date
+group by t.region, t.country, s.order_date, t.latitude, t.longitude
 order by s.order_date
 """
 
+
+def select_geo_coordinates():
+    return """
+    select latitude, longitude from advworksterritories
+    """
+
+
+def select_min_max_date():
+    return """select min(order_date) as min_date, max(order_date) as  max_date from advworkssales"""
 
 def select_aggr_sales_data_for_period(aggr_sales_data_query: str, date_from: str, date_to: str):
     return f"select * from ({aggr_sales_data_query}) where order_date > '{date_from}' and order_date < '{date_to}'"
