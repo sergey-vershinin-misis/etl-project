@@ -37,3 +37,13 @@ class AdvWorksSales(pw.Model):
 
     class Meta:
         database = db
+
+
+class AdvWorksTerritories(pw.Model):
+    territory_key = pw.BigAutoField()
+    region = pw.TextField()
+    country = pw.TextField()
+    continent = pw.TextField()
+
+    class Meta:
+        database = db

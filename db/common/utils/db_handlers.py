@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Generator
 
-from db.queries.queries import select_all
+from db.queries.queries import *
 from db_connectors import ConnectionFactory, ConnectorType
 
 
@@ -41,4 +41,9 @@ class SQLiteHandler(_AnyDBHandler, SQLiteRead):
 
 connector = ConnectionFactory.connect_db(ConnectorType.SQLite)
 sql = SQLiteHandler(connector)
-sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', select_all('advworksproducts'))
+# query = select_all('advworksproducts')
+# query = select_aggr_sales_data_for_period(select_aggr_sales_data(), '1/1/2017', '1/3/2017')
+query = select_count_for(select_aggr_sales_data())
+
+
+sql.db_handle('c:\\src\\local-py\\misis\\etl\\db\\aworks_db', query)
